@@ -4,7 +4,11 @@ import FeaturedHero from '@/components/FeaturedHero';
 import HorizontalScroll from '@/components/HorizontalScroll';
 import { ALL_CONTENT, RECENTLY_WATCHED, MOVIES, TV_SHOWS } from '@/data/content';
 
-const Home: React.FC = () => {
+interface HomeProps {
+  onNavigate?: (section: string, contentId?: string) => void;
+}
+
+const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   // Get featured content (first 4 items)
   const featuredContent = ALL_CONTENT.slice(0, 4);
   
@@ -16,9 +20,9 @@ const Home: React.FC = () => {
   const trendingContent = [...ALL_CONTENT].sort(() => Math.random() - 0.5).slice(0, 8);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black">
       {/* Featured Hero Section */}
-      <FeaturedHero content={featuredContent} />
+      <FeaturedHero content={featuredContent} onNavigate={onNavigate} />
       
       {/* Content Sections */}
       <div className="pb-12">
@@ -27,6 +31,7 @@ const Home: React.FC = () => {
           title="Continue Watching" 
           content={RECENTLY_WATCHED}
           cardSize="medium"
+          onNavigate={onNavigate}
         />
         
         {/* Trending Now */}
@@ -34,6 +39,7 @@ const Home: React.FC = () => {
           title="Trending Now" 
           content={trendingContent}
           cardSize="medium"
+          onNavigate={onNavigate}
         />
         
         {/* Movies */}
@@ -41,6 +47,7 @@ const Home: React.FC = () => {
           title="Popular Movies" 
           content={movieContent}
           cardSize="medium"
+          onNavigate={onNavigate}
         />
         
         {/* TV Shows */}
@@ -48,6 +55,7 @@ const Home: React.FC = () => {
           title="TV Series" 
           content={tvContent}
           cardSize="medium"
+          onNavigate={onNavigate}
         />
       </div>
     </div>

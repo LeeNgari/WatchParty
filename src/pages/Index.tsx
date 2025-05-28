@@ -5,6 +5,7 @@ import Sidebar from '@/components/Sidebar';
 import Home from './Home';
 import Search from './Search';
 import Explore from './Explore';
+import Watch from './Watch';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -12,6 +13,7 @@ const Index = () => {
 
   const handleNavigate = (section: string) => {
     setCurrentSection(section);
+    setSidebarOpen(false);
   };
 
   const renderContent = () => {
@@ -20,14 +22,16 @@ const Index = () => {
         return <Search />;
       case 'explore':
         return <Explore />;
+      case 'watch':
+        return <Watch />;
       case 'home':
       default:
-        return <Home />;
+        return <Home onNavigate={handleNavigate} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-x-hidden">
       {/* Header */}
       <Header 
         onMenuClick={() => setSidebarOpen(true)}
@@ -48,8 +52,8 @@ const Index = () => {
         {renderContent()}
       </main>
 
-      {/* Add custom scrollbar styles */}
-      <style jsx global>{`
+      {/* Custom scrollbar styles */}
+      <style>{`
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
