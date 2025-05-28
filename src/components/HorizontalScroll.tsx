@@ -30,24 +30,24 @@ const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
   };
 
   return (
-    <div className="mb-12">
+    <div className="mb-16">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-6 px-6">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+      <div className="flex items-center justify-between mb-8 px-8">
+        <h2 className="text-2xl font-light tracking-wide text-white">
           {title}
         </h2>
         <div className="flex gap-2">
           <button 
             onClick={() => scroll('left')}
-            className="group w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105"
+            className="group w-10 h-10 bg-white/5 hover:bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center transition-all duration-300 border border-white/10"
           >
-            <ChevronLeft className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+            <ChevronLeft className="w-4 h-4 text-white/40 group-hover:text-white transition-colors" />
           </button>
           <button 
             onClick={() => scroll('right')}
-            className="group w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105"
+            className="group w-10 h-10 bg-white/5 hover:bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center transition-all duration-300 border border-white/10"
           >
-            <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+            <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors" />
           </button>
         </div>
       </div>
@@ -55,7 +55,7 @@ const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
       {/* Scrollable Content */}
       <div 
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto scrollbar-hide px-6 pb-4"
+        className="flex gap-6 overflow-x-auto scrollbar-hide px-8 pb-4"
       >
         {content.map((item) => (
           <ContentCard 

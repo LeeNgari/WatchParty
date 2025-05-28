@@ -13,7 +13,6 @@ const Index = () => {
   const handleNavigate = (section: string, contentId?: string) => {
     setCurrentSection(section);
     if (contentId && section === 'watch') {
-      // Store contentId for the watch page
       sessionStorage.setItem('currentContentId', contentId);
     }
     setSidebarOpen(false);
@@ -34,8 +33,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-x-hidden">
-      {/* Collapsible Sidebar */}
+    <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans">
       <CollapsibleSidebar 
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
@@ -43,12 +41,10 @@ const Index = () => {
         currentSection={currentSection}
       />
 
-      {/* Main Content */}
       <main className="relative">
         {renderContent()}
       </main>
 
-      {/* Custom scrollbar styles */}
       <style>{`
         .scrollbar-hide {
           -ms-overflow-style: none;
