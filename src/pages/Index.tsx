@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
-import Header from '@/components/Header';
-import Sidebar from '@/components/Sidebar';
+import CollapsibleSidebar from '@/components/CollapsibleSidebar';
 import Home from './Home';
 import Search from './Search';
 import Explore from './Explore';
@@ -11,8 +10,12 @@ const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState('home');
 
-  const handleNavigate = (section: string) => {
+  const handleNavigate = (section: string, contentId?: string) => {
     setCurrentSection(section);
+    if (contentId && section === 'watch') {
+      // Store contentId for the watch page
+      sessionStorage.setItem('currentContentId', contentId);
+    }
     setSidebarOpen(false);
   };
 
@@ -32,17 +35,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-x-hidden">
-      {/* Header */}
-      <Header 
-        onMenuClick={() => setSidebarOpen(true)}
-        currentSection={currentSection}
-        onNavigate={handleNavigate}
-      />
-
-      {/* Sidebar */}
-      <Sidebar 
+      {/* Collapsible Sidebar */}
+      <CollapsibleSidebar 
         isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
         onNavigate={handleNavigate}
         currentSection={currentSection}
       />
