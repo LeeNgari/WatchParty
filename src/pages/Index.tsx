@@ -5,15 +5,21 @@ import Home from './Home';
 import Search from './Search';
 import Explore from './Explore';
 import Watch from './Watch';
+import Rooms from './Rooms';
+import Room from './Room';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState('home');
+  const [currentRoomId, setCurrentRoomId] = useState<string | undefined>();
 
   const handleNavigate = (section: string, contentId?: string) => {
     setCurrentSection(section);
     if (contentId && section === 'watch') {
       sessionStorage.setItem('currentContentId', contentId);
+    }
+    if (contentId && section === 'room') {
+      setCurrentRoomId(contentId);
     }
     setSidebarOpen(false);
   };
@@ -26,6 +32,10 @@ const Index = () => {
         return <Explore />;
       case 'watch':
         return <Watch />;
+      case 'rooms':
+        return <Rooms onNavigate={handleNavigate} />;
+      case 'room':
+        return <Room roomId={currentRoomId} onNavigate={handleNavigate} />;
       case 'home':
       default:
         return <Home onNavigate={handleNavigate} />;

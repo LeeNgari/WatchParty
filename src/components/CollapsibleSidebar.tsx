@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { cn } from '@/lib/utils';
-import { Menu, Search, User, Home, Compass, Film, Tv, Clock, Bookmark, X } from 'lucide-react';
+import { Home, Search, Compass, Video, Users, X, Menu } from 'lucide-react';
 
 interface CollapsibleSidebarProps {
   isOpen: boolean;
@@ -16,116 +15,85 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
   onNavigate, 
   currentSection 
 }) => {
-  const menuItems = [
+  const navigationItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'search', label: 'Search', icon: Search },
     { id: 'explore', label: 'Explore', icon: Compass },
-    { id: 'movies', label: 'Movies', icon: Film },
-    { id: 'tv-shows', label: 'TV Shows', icon: Tv },
-    { id: 'recently-watched', label: 'Continue Watching', icon: Clock },
-    { id: 'my-list', label: 'My List', icon: Bookmark }
+    { id: 'rooms', label: 'Watch Together', icon: Users },
+    { id: 'watch', label: 'My List', icon: Video },
   ];
 
   return (
     <>
-      {/* Menu Toggle Button */}
-      <button 
+      {/* Toggle Button */}
+      <button
         onClick={onToggle}
-        className="fixed top-8 left-8 z-50 group w-10 h-10 flex items-center justify-center rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all duration-300"
+        className="fixed top-6 left-6 z-50 w-12 h-12 bg-black/50 backdrop-blur-xl hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-300 border border-white/20"
       >
-        <Menu className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
+        {isOpen ? (
+          <X className="w-6 h-6 text-white" />
+        ) : (
+          <Menu className="w-6 h-6 text-white" />
+        )}
       </button>
 
-      {/* Profile Button */}
-      <div className="fixed top-8 right-8 z-50 flex items-center gap-4">
-        <div className="hidden sm:block text-right">
-          <p className="text-white font-medium text-sm tracking-wide">John Doe</p>
-          <p className="text-white/40 text-xs font-light">Premium</p>
-        </div>
-        <div className="relative group cursor-pointer">
-          <div className="w-10 h-10 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/10 group-hover:bg-white/20 transition-all duration-300">
-            <User className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
-          </div>
-        </div>
-      </div>
+      {/* Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+          onClick={onToggle}
+        />
+      )}
 
-      {/* Backdrop */}
-      <div 
-        className={cn(
-          "fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-all duration-500",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        )}
-        onClick={onToggle}
-      />
-      
-      {/* Sidebar Panel */}
-      <div 
-        className={cn(
-          "fixed left-0 top-0 h-full w-80 z-50 transform transition-all duration-500 ease-out",
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        )}
-      >
-        {/* Clean background */}
-        <div className="absolute inset-0 bg-black/95 backdrop-blur-2xl border-r border-white/5"></div>
-        
-        {/* Content */}
-        <div className="relative h-full flex flex-col">
-          {/* Header */}
-          <div className="flex items-center justify-between p-8 border-b border-white/5">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-lg">S</span>
-              </div>
-              <h2 className="text-xl font-light tracking-wide text-white">
-                StreamFlix
-              </h2>
+      {/* Sidebar */}
+      <div className={`
+        fixed top-0 left-0 h-full w-80 bg-black/90 backdrop-blur-xl border-r border-white/10 z-50 transform transition-transform duration-300 ease-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        {/* Header */}
+        <div className="p-8 border-b border-white/10">
+          <h1 className="text-3xl font-light text-white tracking-tight">
+            StreamFlix
+          </h1>
+          <p className="text-white/60 text-sm font-light mt-2">
+            Premium streaming experience
+          </p>
+        </div>
+
+        {/* Navigation */}
+        <nav className="p-6 space-y-2">
+          {navigationItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentSection === item.id;
+            
+            return (
+              <button
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
+                className={`
+                  w-full flex items-center gap-4 px-4 py-4 rounded-xl font-light transition-all duration-300 text-left
+                  ${isActive 
+                    ? 'bg-white text-black' 
+                    : 'text-white/80 hover:text-white hover:bg-white/10'
+                  }
+                `}
+              >
+                <Icon className="w-5 h-5" />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Footer */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+              <span className="text-sm font-medium text-white">U</span>
             </div>
-            <button 
-              onClick={onToggle}
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-white/40 hover:text-white hover:bg-white/5 transition-all duration-200"
-            >
-              <X size={18} />
-            </button>
-          </div>
-
-          {/* Navigation */}
-          <nav className="flex-1 p-6">
-            <ul className="space-y-1">
-              {menuItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <li key={item.id}>
-                    <button
-                      onClick={() => onNavigate(item.id)}
-                      className={cn(
-                        "w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 text-left group",
-                        currentSection === item.id
-                          ? "bg-white/10 text-white"
-                          : "text-white/60 hover:text-white hover:bg-white/5"
-                      )}
-                    >
-                      <Icon className={cn(
-                        "w-5 h-5 transition-colors duration-200",
-                        currentSection === item.id ? "text-white" : "text-white/40 group-hover:text-white/60"
-                      )} />
-                      <span className="font-light tracking-wide">{item.label}</span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-
-          {/* Profile Section */}
-          <div className="p-6 border-t border-white/5">
-            <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5">
-              <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-                <span className="text-white font-medium text-sm">JD</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-white font-medium tracking-wide">John Doe</p>
-                <p className="text-white/40 text-sm font-light">Premium Member</p>
-              </div>
+            <div>
+              <p className="text-white font-light">Guest User</p>
+              <p className="text-white/60 text-sm">Free Plan</p>
             </div>
           </div>
         </div>
