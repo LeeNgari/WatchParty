@@ -24,7 +24,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % backgroundImages.length);
-    }, 5000); // Change image every 5 seconds
+    }, 10000); // Change image every 10 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -38,7 +38,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background Image with Gradient Overlay */}
       <div 
-        className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+        className="absolute inset-0 transition-opacity duration-2000 ease-in-out"
         style={{
           backgroundImage: `linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,1) 100%), url(${backgroundImages[currentImageIndex]})`,
           backgroundSize: 'cover',
@@ -49,7 +49,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
       
       {/* Content */}
       <div className="relative z-10 w-full max-w-md mx-4">
-        <div className="bg-black/40 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-2xl">
+        <div className="bg-gray-900 p-8 rounded-2xl border border-gray-800 shadow-2xl">
           {/* Logo */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white mb-2">WatchParty</h1>
@@ -64,7 +64,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-white/10 border-white/20 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20 placeholder:text-gray-400"
+                className="bg-gray-800 border-gray-700 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20 placeholder:text-gray-400"
                 placeholder="Enter your email"
                 required
               />
@@ -77,7 +77,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-white/10 border-white/20 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20 placeholder:text-gray-400"
+                className="bg-gray-800 border-gray-700 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20 placeholder:text-gray-400"
                 placeholder="Enter your password"
                 required
               />

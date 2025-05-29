@@ -34,10 +34,14 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
       )}
 
       {/* Sidebar - Always visible, either collapsed or expanded */}
-      <div className={`
-        fixed top-0 left-0 h-full bg-gray-900/95 backdrop-blur-xl z-50 transition-all duration-300 ease-out border-r border-gray-800/50
-        ${isOpen ? 'w-64' : 'w-16'}
-      `}>
+      <div 
+        className={`
+          fixed top-0 left-0 h-full bg-gray-950 z-50 transition-all duration-300 ease-out border-r border-gray-800
+          ${isOpen ? 'w-64' : 'w-16'}
+        `}
+        onMouseEnter={() => !isOpen && onToggle()}
+        onMouseLeave={() => isOpen && onToggle()}
+      >
         {/* Header */}
         <div className={`p-4 ${isOpen ? 'pt-8' : 'pt-6'}`}>
           <div className="flex items-center gap-3">
@@ -67,7 +71,7 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
                   w-full flex items-center gap-4 px-3 py-3 rounded-lg text-left transition-all duration-200 mb-2 group relative
                   ${isActive 
                     ? 'bg-red-600 text-white shadow-lg shadow-red-600/25' 
-                    : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                    : 'text-gray-300 hover:text-white hover:bg-gray-800'
                   }
                 `}
                 title={!isOpen ? item.label : undefined}
@@ -86,21 +90,9 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
           })}
         </nav>
 
-        {/* Toggle Button */}
-        <button
-          onClick={onToggle}
-          className="absolute top-6 right-4 w-8 h-8 bg-gray-800/50 hover:bg-gray-700 rounded-lg flex items-center justify-center transition-all duration-200"
-        >
-          <div className="flex flex-col gap-1">
-            <div className={`w-3 h-0.5 bg-white transition-transform duration-200 ${isOpen ? 'rotate-45 translate-y-1' : ''}`} />
-            <div className={`w-3 h-0.5 bg-white transition-opacity duration-200 ${isOpen ? 'opacity-0' : ''}`} />
-            <div className={`w-3 h-0.5 bg-white transition-transform duration-200 ${isOpen ? '-rotate-45 -translate-y-1' : ''}`} />
-          </div>
-        </button>
-
         {/* Footer - Only show when expanded */}
         {isOpen && (
-          <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-800/50">
+          <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-800">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center">
                 <span className="text-sm font-bold text-white">U</span>
