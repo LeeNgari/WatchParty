@@ -7,11 +7,16 @@ import Explore from './Explore';
 import Watch from './Watch';
 import Rooms from './Rooms';
 import Room from './Room';
+import Login from './Login';
+import Register from './Register';
+import ProfileSelection from './ProfileSelection';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState('home');
+  const [currentSection, setCurrentSection] = useState('login');
   const [currentRoomId, setCurrentRoomId] = useState<string | undefined>();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasProfile, setHasProfile] = useState(false);
 
   const handleNavigate = (section: string, contentId?: string) => {
     setCurrentSection(section);
@@ -24,7 +29,31 @@ const Index = () => {
     setSidebarOpen(false);
   };
 
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+    setCurrentSection('profile-selection');
+  };
+
+  const handleProfileSelected = () => {
+    setHasProfile(true);
+    setCurrentSection('home');
+  };
+
   const renderContent = () => {
+    if (!isAuthenticated) {
+      switch (currentSection) {
+        case 'register':
+          return <Register onNavigate={() => setCurrentSection('login')} />;
+        case 'login':
+        default:
+          return <Login onLogin={handleLogin} onNavigate={() => setCurrentSection('register')} />;
+      }
+    }
+
+    if (!hasProfile) {
+      return <ProfileSelection onProfileSelected={handleProfileSelected} />;
+    }
+
     switch (currentSection) {
       case 'search':
         return <Search />;
@@ -43,41 +72,19 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans">
-      <CollapsibleSidebar 
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-        onNavigate={handleNavigate}
-        currentSection={currentSection}
-      />
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      {isAuthenticated && hasProfile && (
+        <CollapsibleSidebar 
+          isOpen={sidebarOpen}
+          onToggle={() => setSidebarOpen(!sidebarOpen)}
+          onNavigate={handleNavigate}
+          currentSection={currentSection}
+        />
+      )}
 
       <main className="relative">
         {renderContent()}
       </main>
-
-      <style>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-      `}</style>
     </div>
   );
 };

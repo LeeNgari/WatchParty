@@ -15,12 +15,12 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   const trendingContent = [...ALL_CONTENT].sort(() => Math.random() - 0.5).slice(0, 8);
 
   return (
-    <div className="min-h-screen bg-black pt-6">
+    <div className="min-h-screen bg-black">
       <FeaturedHero content={featuredContent} onNavigate={onNavigate} />
       
-      <div className="pb-16 space-y-12">
+      <div className="pb-20 space-y-12 -mt-32 relative z-10">
         <HorizontalScroll 
-          title="Continue Watching" 
+          title="Continue Watching for User" 
           content={RECENTLY_WATCHED}
           cardSize="medium"
           onNavigate={onNavigate}
@@ -34,7 +34,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
         />
         
         <HorizontalScroll 
-          title="Movies" 
+          title="Popular Movies" 
           content={movieContent}
           cardSize="medium"
           onNavigate={onNavigate}
@@ -43,6 +43,13 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
         <HorizontalScroll 
           title="TV Series" 
           content={tvContent}
+          cardSize="medium"
+          onNavigate={onNavigate}
+        />
+
+        <HorizontalScroll 
+          title="Watch Together Rooms" 
+          content={ALL_CONTENT.slice(0, 6)}
           cardSize="medium"
           onNavigate={onNavigate}
         />
