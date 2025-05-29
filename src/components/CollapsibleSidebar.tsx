@@ -28,7 +28,7 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
       {/* Black Overlay when sidebar is open */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 z-40 transition-opacity duration-300"
+          className="fixed inset-0 bg-black/70 z-40 transition-opacity duration-300"
           onClick={onToggle}
         />
       )}
@@ -36,7 +36,7 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
       {/* Sidebar - Always visible, either collapsed or expanded */}
       <div 
         className={`
-          fixed top-0 left-0 h-full bg-gray-950 z-50 transition-all duration-300 ease-out border-r border-gray-800
+          fixed top-0 left-0 h-full bg-gray-950 z-50 transition-all duration-300 ease-out
           ${isOpen ? 'w-64' : 'w-16'}
         `}
         onMouseEnter={() => !isOpen && onToggle()}
@@ -92,7 +92,7 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
 
         {/* Footer - Only show when expanded */}
         {isOpen && (
-          <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-800">
+          <div className="absolute bottom-0 left-0 right-0 p-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center">
                 <span className="text-sm font-bold text-white">U</span>

@@ -32,13 +32,13 @@ const ContentCard: React.FC<ContentCardProps> = ({ content, size = 'medium', onN
 
   return (
     <div className={cn(
-      "flex-shrink-0 group cursor-pointer transition-all duration-300 hover:scale-105",
+      "flex-shrink-0 group cursor-pointer transition-all duration-300 hover:scale-105 relative",
       sizeClasses[size]
     )}
     onClick={handleClick}>
       <div className="relative h-full overflow-hidden rounded-xl bg-gray-800 shadow-xl group-hover:shadow-2xl transition-all duration-300">
         {/* Image */}
-        <div className="relative h-5/6 overflow-hidden">
+        <div className="relative h-full overflow-hidden">
           <img 
             src={content.imageUrl} 
             alt={content.title}
@@ -50,7 +50,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ content, size = 'medium', onN
           />
           
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
           
           {/* Play button overlay */}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40 backdrop-blur-sm">
@@ -58,13 +58,13 @@ const ContentCard: React.FC<ContentCardProps> = ({ content, size = 'medium', onN
               <Play className="w-6 h-6 text-white ml-1" fill="currentColor" />
             </div>
           </div>
-        </div>
 
-        {/* Title only */}
-        <div className="h-1/6 p-4 flex items-center">
-          <h3 className="font-bold text-white text-sm line-clamp-2 group-hover:text-red-400 transition-colors">
-            {content.title}
-          </h3>
+          {/* Title overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-3">
+            <h3 className="font-medium text-white text-sm line-clamp-2 group-hover:text-red-400 transition-colors">
+              {content.title}
+            </h3>
+          </div>
         </div>
       </div>
     </div>

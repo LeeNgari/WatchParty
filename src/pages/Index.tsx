@@ -82,7 +82,7 @@ const Index = () => {
         />
       )}
 
-      <main className={`transition-all duration-300 ${isAuthenticated && hasProfile ? (sidebarOpen ? 'ml-64' : 'ml-16') : ''}`}>
+      <main className="w-full">
         {renderContent()}
       </main>
     </div>
