@@ -30,24 +30,24 @@ const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
   };
 
   return (
-    <div className="mb-16">
+    <div className="group">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-8 px-8">
-        <h2 className="text-2xl font-light tracking-wide text-white">
+      <div className="flex items-center justify-between mb-6 px-4">
+        <h2 className="text-2xl font-bold text-white">
           {title}
         </h2>
-        <div className="flex gap-2">
+        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <button 
             onClick={() => scroll('left')}
-            className="group w-10 h-10 bg-white/5 hover:bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center transition-all duration-300 border border-white/10"
+            className="w-10 h-10 bg-gray-800/80 hover:bg-gray-700 rounded-full flex items-center justify-center transition-all"
           >
-            <ChevronLeft className="w-4 h-4 text-white/40 group-hover:text-white transition-colors" />
+            <ChevronLeft className="w-5 h-5 text-white" />
           </button>
           <button 
             onClick={() => scroll('right')}
-            className="group w-10 h-10 bg-white/5 hover:bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center transition-all duration-300 border border-white/10"
+            className="w-10 h-10 bg-gray-800/80 hover:bg-gray-700 rounded-full flex items-center justify-center transition-all"
           >
-            <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors" />
+            <ChevronRight className="w-5 h-5 text-white" />
           </button>
         </div>
       </div>
@@ -55,7 +55,8 @@ const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
       {/* Scrollable Content */}
       <div 
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto scrollbar-hide px-8 pb-4"
+        className="flex gap-4 overflow-x-auto scrollbar-hide px-4 pb-4"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {content.map((item) => (
           <ContentCard 

@@ -15,12 +15,12 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   const trendingContent = [...ALL_CONTENT].sort(() => Math.random() - 0.5).slice(0, 8);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-gray-950">
       <FeaturedHero content={featuredContent} onNavigate={onNavigate} />
       
-      <div className="pb-20 space-y-12 -mt-32 relative z-10">
+      <div className="pb-20 space-y-16 px-4 lg:px-8">
         <HorizontalScroll 
-          title="Continue Watching for User" 
+          title="Continue Watching" 
           content={RECENTLY_WATCHED}
           cardSize="medium"
           onNavigate={onNavigate}

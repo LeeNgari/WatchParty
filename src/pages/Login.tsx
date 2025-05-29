@@ -19,65 +19,61 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
   };
 
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center relative"
-      style={{
-        backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url("https://images.unsplash.com/photo-1489599328615-c7abdf8aa5bd?w=1920&h=1080&fit=crop")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
-    >
-      <div className="bg-black/75 p-16 rounded-md w-full max-w-md">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-red-600 mb-2">WatchParty</h1>
-          <h2 className="text-2xl font-semibold text-white mb-8">Sign In</h2>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <Label htmlFor="email" className="text-white text-sm">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-gray-700 border-gray-600 text-white mt-1 h-12"
-              placeholder="Email address"
-              required
-            />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4">
+      <div className="w-full max-w-md">
+        <div className="bg-gray-900/50 backdrop-blur-xl p-8 rounded-2xl border border-gray-800/50 shadow-2xl">
+          {/* Logo */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-white mb-2">WatchParty</h1>
+            <p className="text-gray-400">Welcome back</p>
           </div>
 
-          <div>
-            <Label htmlFor="password" className="text-white text-sm">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="bg-gray-700 border-gray-600 text-white mt-1 h-12"
-              placeholder="Password"
-              required
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <Label htmlFor="email" className="text-white text-sm font-medium">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-gray-800/50 border-gray-700 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
 
-          <Button 
-            type="submit" 
-            className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-semibold"
-          >
-            Sign In
-          </Button>
-        </form>
+            <div>
+              <Label htmlFor="password" className="text-white text-sm font-medium">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-gray-800/50 border-gray-700 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
 
-        <div className="mt-8 text-gray-400 text-sm">
-          <p>
-            New to WatchParty?{' '}
-            <button 
-              onClick={onNavigate}
-              className="text-white hover:underline"
+            <Button 
+              type="submit" 
+              className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-semibold rounded-lg transition-all duration-200 shadow-lg shadow-red-600/25"
             >
-              Sign up now
-            </button>
-          </p>
+              Sign In
+            </Button>
+          </form>
+
+          <div className="mt-8 text-center">
+            <p className="text-gray-400">
+              New to WatchParty?{' '}
+              <button 
+                onClick={onNavigate}
+                className="text-red-400 hover:text-red-300 font-medium transition-colors"
+              >
+                Create account
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -72,7 +72,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-gray-950 text-white">
       {isAuthenticated && hasProfile && (
         <CollapsibleSidebar 
           isOpen={sidebarOpen}
@@ -82,7 +82,7 @@ const Index = () => {
         />
       )}
 
-      <main className="relative">
+      <main className={`transition-all duration-300 ${isAuthenticated && hasProfile ? (sidebarOpen ? 'lg:ml-64' : 'ml-0') : ''}`}>
         {renderContent()}
       </main>
     </div>

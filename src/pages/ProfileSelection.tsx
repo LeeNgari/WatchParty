@@ -11,39 +11,46 @@ const ProfileSelection: React.FC<ProfileSelectionProps> = ({ onProfileSelected }
   const [selectedProfile, setSelectedProfile] = useState<string | null>(null);
 
   const profiles = [
-    { id: '1', name: 'User 1', avatar: 'bg-red-600' },
-    { id: '2', name: 'User 2', avatar: 'bg-blue-600' },
-    { id: '3', name: 'Kids', avatar: 'bg-green-600' },
+    { id: '1', name: 'John', avatar: 'bg-gradient-to-br from-blue-500 to-purple-600' },
+    { id: '2', name: 'Sarah', avatar: 'bg-gradient-to-br from-pink-500 to-red-600' },
+    { id: '3', name: 'Kids', avatar: 'bg-gradient-to-br from-green-500 to-emerald-600' },
   ];
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-8">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-white mb-2">Who's watching?</h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex flex-col items-center justify-center p-8">
+      <div className="text-center mb-16">
+        <h1 className="text-4xl font-bold text-white mb-4">Who's watching?</h1>
         <p className="text-gray-400 text-lg">Select your profile to continue</p>
       </div>
 
-      <div className="flex gap-8 mb-12">
+      <div className="flex flex-wrap gap-8 justify-center mb-16 max-w-4xl">
         {profiles.map((profile) => (
-          <div key={profile.id} className="text-center">
+          <div key={profile.id} className="text-center group">
             <button
               onClick={() => setSelectedProfile(profile.id)}
               className={`
-                w-32 h-32 rounded-lg flex items-center justify-center mb-4 transition-transform duration-200
+                w-32 h-32 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300
                 ${profile.avatar} 
-                ${selectedProfile === profile.id ? 'ring-4 ring-white scale-105' : 'hover:scale-105'}
+                ${selectedProfile === profile.id 
+                  ? 'ring-4 ring-red-500 scale-110 shadow-2xl shadow-red-500/25' 
+                  : 'hover:scale-105 shadow-xl'
+                }
               `}
             >
               <User className="w-16 h-16 text-white" />
             </button>
-            <p className="text-white text-lg font-medium">{profile.name}</p>
+            <p className={`text-lg font-medium transition-colors ${
+              selectedProfile === profile.id ? 'text-white' : 'text-gray-300'
+            }`}>
+              {profile.name}
+            </p>
           </div>
         ))}
 
         {/* Add Profile Button */}
-        <div className="text-center">
-          <button className="w-32 h-32 rounded-lg border-2 border-gray-600 flex items-center justify-center mb-4 transition-all duration-200 hover:border-white hover:scale-105">
-            <Plus className="w-16 h-16 text-gray-600" />
+        <div className="text-center group">
+          <button className="w-32 h-32 rounded-2xl border-2 border-gray-600 border-dashed flex items-center justify-center mb-4 transition-all duration-300 hover:border-gray-400 hover:scale-105">
+            <Plus className="w-16 h-16 text-gray-500 group-hover:text-gray-300" />
           </button>
           <p className="text-gray-400 text-lg font-medium">Add Profile</p>
         </div>
@@ -52,7 +59,7 @@ const ProfileSelection: React.FC<ProfileSelectionProps> = ({ onProfileSelected }
       <Button 
         onClick={onProfileSelected}
         disabled={!selectedProfile}
-        className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-red-600 hover:bg-red-700 text-white px-12 py-4 text-lg font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg shadow-red-600/25"
       >
         Continue
       </Button>
