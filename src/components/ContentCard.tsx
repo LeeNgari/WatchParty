@@ -32,7 +32,7 @@ const ContentCard: React.FC<ContentCardProps> = ({ content, size = 'medium', onN
 
   return (
     <div className={cn(
-      "flex-shrink-0 group cursor-pointer transition-all duration-300 hover:scale-105 relative",
+      "flex-shrink-0 cursor-pointer transition-all duration-300 hover:scale-105 relative",
       sizeClasses[size]
     )}
     onClick={handleClick}>

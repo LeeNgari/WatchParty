@@ -48,7 +48,7 @@ const FeaturedHero: React.FC<FeaturedHeroProps> = ({ content, onNavigate }) => {
   const handleInfo = () => onNavigate?.('details', currentContent.id);
 
   return (
-    <div className="relative h-[80vh] overflow-hidden">
+    <div className="relative h-[80vh] overflow-hidden max-w-[1398px] bg-red-950">
       {/* Background Images with Transition */}
       <div className="absolute inset-0">
         {/* Current Content */}
@@ -60,7 +60,7 @@ const FeaturedHero: React.FC<FeaturedHeroProps> = ({ content, onNavigate }) => {
           <img 
             src={currentContent.imageUrl} 
             alt={currentContent.title}
-            className="w-full h-full object-cover object-center"
+            className="relative h-[80vh] w-full max-w-[2000px] mx-auto overflow-hidden"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = '/placeholder.svg';
@@ -68,6 +68,8 @@ const FeaturedHero: React.FC<FeaturedHeroProps> = ({ content, onNavigate }) => {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-950/70 to-transparent"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/30 to-transparent"></div>
+
+          
         </div>
         
         {/* Next Content (preloaded) */}
@@ -80,7 +82,7 @@ const FeaturedHero: React.FC<FeaturedHeroProps> = ({ content, onNavigate }) => {
             <img 
               src={nextContent.imageUrl} 
               alt={nextContent.title}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-contain object-center max-w-full max-h-full"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-gray-950 via-gray-950/70 to-transparent"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/30 to-transparent"></div>
@@ -103,7 +105,6 @@ const FeaturedHero: React.FC<FeaturedHeroProps> = ({ content, onNavigate }) => {
               98% Match
             </span>
             <span>{currentContent.releaseDate}</span>
-            
             <span>{currentContent.duration}</span>
           </div>
 
@@ -134,20 +135,7 @@ const FeaturedHero: React.FC<FeaturedHeroProps> = ({ content, onNavigate }) => {
       </div>
 
       {/* Navigation Controls */}
-      <div className="absolute bottom-8 right-8 flex gap-4 z-20">
-        <button 
-          onClick={handlePrevious}
-          className="w-12 h-12 bg-gray-900/90 backdrop-blur-md hover:bg-gray-800/90 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg shadow-black/30"
-        >
-          <ChevronLeft className="w-6 h-6 text-white" strokeWidth={2} />
-        </button>
-        <button 
-          onClick={handleNext}
-          className="w-12 h-12 bg-gray-900/90 backdrop-blur-md hover:bg-gray-800/90 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg shadow-black/30"
-        >
-          <ChevronRight className="w-6 h-6 text-white" strokeWidth={2} />
-        </button>
-      </div>
+      
 
       {/* Progress Indicators */}
       <div className="absolute bottom-8 left-8 lg:left-24 flex gap-2 z-20">

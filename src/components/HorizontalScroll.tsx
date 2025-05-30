@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { ContentItem } from '@/types/content';
 import ContentCard from './ContentCard';
@@ -30,42 +29,29 @@ const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
   };
 
   return (
-    <div className="group">
+    <div className="w-full max-w-7xl mx-auto">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-6 px-4">
-        <h2 className="text-2xl font-bold text-white">
-          {title}
-        </h2>
-        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button 
-            onClick={() => scroll('left')}
-            className="w-10 h-10 bg-gray-800/80 hover:bg-gray-700 rounded-full flex items-center justify-center transition-all"
-          >
-            <ChevronLeft className="w-5 h-5 text-white" />
-          </button>
-          <button 
-            onClick={() => scroll('right')}
-            className="w-10 h-10 bg-gray-800/80 hover:bg-gray-700 rounded-full flex items-center justify-center transition-all"
-          >
-            <ChevronRight className="w-5 h-5 text-white" />
-          </button>
-        </div>
+      <div className="flex items-center justify-between mb-4 px-4">
+        <h2 className="text-2xl font-bold text-white">{title}</h2>
+       
       </div>
 
       {/* Scrollable Content */}
-      <div 
-        ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide px-4 pb-4"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        {content.map((item) => (
-          <ContentCard 
-            key={item.id} 
-            content={item} 
-            size={cardSize}
-            onNavigate={onNavigate}
-          />
-        ))}
+      <div className="overflow-x-auto scrollbar-hidden px-4">
+        <div 
+          ref={scrollRef}
+          className="flex gap-4 pb-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {content.map((item) => (
+            <ContentCard 
+              key={item.id} 
+              content={item} 
+              size={cardSize}
+              onNavigate={onNavigate}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

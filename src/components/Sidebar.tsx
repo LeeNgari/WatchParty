@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { X, Home, Search, Compass, Film, Tv, Clock, Bookmark } from 'lucide-react';
+import { X, Home, Search, Compass, Film, Tv, Clock, Bookmark, Settings, LogOut } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -26,49 +25,46 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onNavigate, currentS
       {/* Backdrop */}
       <div 
         className={cn(
-          "fixed inset-0 bg-black/80 backdrop-blur-sm z-40 transition-all duration-500",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          "fixed inset-0 bg-black/80 backdrop-blur-sm z-40 transition-all duration-300 ease-in-out",
+          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
         onClick={onClose}
       />
       
       {/* Sidebar */}
-      <div 
+      <aside 
         className={cn(
-          "fixed left-0 top-0 h-full w-80 z-50 transform transition-all duration-500 ease-out",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          "fixed left-0 top-0 h-full w-72 z-50 transform transition-all duration-300 ease-in-out",
+          "bg-gradient-to-b from-gray-900 to-gray-950 border-r border-gray-800",
+          isOpen ? "translate-x-0 shadow-xl" : "-translate-x-full"
         )}
       >
-        {/* Glass morphism background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/80 backdrop-blur-2xl"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-purple-500/5"></div>
-        
-        {/* Content */}
         <div className="relative h-full flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <div className="flex items-center justify-between p-6 border-b border-gray-800">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-red-500 via-pink-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-pink-600 rounded-lg flex items-center justify-center shadow-lg">
                   <span className="text-white font-bold text-lg">S</span>
                 </div>
-                <div className="absolute -inset-1 bg-gradient-to-br from-red-500 via-pink-500 to-purple-600 rounded-2xl blur opacity-20"></div>
+                <div className="absolute -inset-1 bg-gradient-to-br from-red-600 to-pink-600 rounded-lg blur opacity-30 -z-10"></div>
               </div>
-              <h2 className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              <h2 className="text-xl font-bold text-white">
                 StreamFlix
               </h2>
             </div>
             <button 
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors duration-200"
+              aria-label="Close sidebar"
             >
               <X size={18} />
             </button>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4">
-            <ul className="space-y-2">
+          <nav className="flex-1 p-4 overflow-y-auto">
+            <ul className="space-y-1">
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -79,15 +75,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onNavigate, currentS
                         onClose();
                       }}
                       className={cn(
-                        "w-full flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 text-left group",
+                        "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-left",
+                        "focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-900",
                         currentSection === item.id
-                          ? "bg-gradient-to-r from-red-500/20 to-purple-500/20 text-white border border-red-500/30 shadow-lg shadow-red-500/10"
-                          : "text-white/70 hover:text-white hover:bg-white/5"
+                          ? "bg-gray-800 text-white shadow-md"
+                          : "text-gray-300 hover:bg-gray-800/50 hover:text-white"
                       )}
                     >
                       <Icon className={cn(
-                        "w-5 h-5 transition-colors duration-300",
-                        currentSection === item.id ? "text-red-400" : "text-white/60 group-hover:text-white/80"
+                        "w-5 h-5 flex-shrink-0",
+                        currentSection === item.id ? "text-red-400" : "text-gray-400"
                       )} />
                       <span className="font-medium">{item.label}</span>
                     </button>
@@ -98,19 +95,33 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onNavigate, currentS
           </nav>
 
           {/* Profile Section */}
-          <div className="p-4 border-t border-white/10">
-            <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-sm">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold">JD</span>
+          <div className="p-4 border-t border-gray-800">
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/50 backdrop-blur-sm">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-semibold text-sm">JD</span>
               </div>
-              <div className="flex-1">
-                <p className="text-white font-medium">John Doe</p>
-                <p className="text-white/60 text-sm">Premium Member</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-white font-medium truncate">John Doe</p>
+                <p className="text-gray-400 text-xs truncate">Premium Member</p>
+              </div>
+              <div className="flex gap-1">
+                <button 
+                  className="p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition-colors"
+                  aria-label="Settings"
+                >
+                  <Settings className="w-5 h-5" />
+                </button>
+                <button 
+                  className="p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md transition-colors"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </aside>
     </>
   );
 };
