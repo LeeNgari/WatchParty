@@ -32,7 +32,7 @@ const Search: React.FC = () => {
   }, [searchQuery, selectedGenre, selectedType]);
 
   return (
-    <div className="min-h-screen bg-black pt-20 px-6">
+    <div className="min-h-screen bg-gray-950 pt-20 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">

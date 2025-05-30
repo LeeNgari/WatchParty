@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, Search, Compass, Video, Users } from 'lucide-react';
+import { Home, Search, Compass, Video, Users, Settings } from 'lucide-react';
 
 interface CollapsibleSidebarProps {
   isOpen: boolean;
@@ -21,6 +21,7 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
     { id: 'explore', label: 'Movies & TV', icon: Compass },
     { id: 'rooms', label: 'Watch Together', icon: Users },
     { id: 'watch', label: 'My List', icon: Video },
+    { id: 'admin', label: 'Admin', icon: Settings },
   ];
 
   return (

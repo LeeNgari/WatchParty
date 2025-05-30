@@ -10,6 +10,7 @@ import Room from './Room';
 import Login from './Login';
 import Register from './Register';
 import ProfileSelection from './ProfileSelection';
+import Admin from './Admin';
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -65,6 +66,8 @@ const Index = () => {
         return <Rooms onNavigate={handleNavigate} />;
       case 'room':
         return <Room roomId={currentRoomId} onNavigate={handleNavigate} />;
+      case 'admin':
+        return <Admin />;
       case 'home':
       default:
         return <Home onNavigate={handleNavigate} />;
