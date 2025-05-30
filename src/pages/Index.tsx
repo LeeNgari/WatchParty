@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import CollapsibleSidebar from '@/components/CollapsibleSidebar';
 import Home from './Home';
@@ -13,7 +12,6 @@ import ProfileSelection from './ProfileSelection';
 import Admin from './Admin';
 
 const Index = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState('login');
   const [currentRoomId, setCurrentRoomId] = useState<string | undefined>();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,7 +25,6 @@ const Index = () => {
     if (contentId && section === 'room') {
       setCurrentRoomId(contentId);
     }
-    setSidebarOpen(false);
   };
 
   const handleLogin = () => {
@@ -75,17 +72,21 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-gray-950 text-white flex">
+      {/* Persistent collapsed sidebar */}
       {isAuthenticated && hasProfile && (
-        <CollapsibleSidebar 
-          isOpen={sidebarOpen}
-          onToggle={() => setSidebarOpen(!sidebarOpen)}
-          onNavigate={handleNavigate}
-          currentSection={currentSection}
-        />
+        <div className="h-full w-16 fixed z-20">
+          <CollapsibleSidebar 
+            isOpen={false}
+            onToggle={() => {}} // Disabled toggle
+            onNavigate={handleNavigate}
+            currentSection={currentSection}
+          />
+        </div>
       )}
 
-      <main className="w-full">
+      {/* Main content with consistent spacing */}
+      <main className={`flex-1 min-h-screen ${isAuthenticated && hasProfile ? 'ml-16' : ''}`}>
         {renderContent()}
       </main>
     </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Home, Search, Compass, Video, Users, Settings } from 'lucide-react';
 
@@ -20,7 +19,6 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
     { id: 'search', label: 'Search', icon: Search },
     { id: 'explore', label: 'Movies & TV', icon: Compass },
     { id: 'rooms', label: 'Watch Together', icon: Users },
-    { id: 'watch', label: 'My List', icon: Video },
     { id: 'admin', label: 'Admin', icon: Settings },
   ];
 
@@ -37,7 +35,7 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
       {/* Sidebar - Always visible, either collapsed or expanded */}
       <div 
         className={`
-          fixed top-0 left-0 h-full bg-slate-900 z-50 transition-all duration-300 ease-out
+          fixed top-0 left-0 h-full bg-gray-950 z-50 transition-all duration-300 ease-out
           ${isOpen ? 'w-64 mr-4' : 'w-16 mr-2'}
         `}
         onMouseEnter={() => !isOpen && onToggle()}

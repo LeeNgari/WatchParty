@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,10 +8,10 @@ interface RegisterProps {
 }
 
 const backgroundImages = [
-  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1920&h=1080&fit=crop', // Matrix movie still
-  'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=1920&h=1080&fit=crop', // Video screens
-  'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1920&h=1080&fit=crop', // Laptop computer
-  'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1920&h=1080&fit=crop', // Blue starry night
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1920&h=1080&fit=crop',
+  'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=1920&h=1080&fit=crop',
+  'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1920&h=1080&fit=crop',
+  'https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1920&h=1080&fit=crop',
 ];
 
 const Register: React.FC<RegisterProps> = ({ onNavigate }) => {
@@ -20,111 +19,135 @@ const Register: React.FC<RegisterProps> = ({ onNavigate }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
-  const [currentImageIndex, setCurrentImageIndex] = useState(1); // Start with different image than login
+  const [currentImageIndex, setCurrentImageIndex] = useState(1);
+  const [nextImageIndex, setNextImageIndex] = useState(2);
+  const [transitioning, setTransitioning] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % backgroundImages.length);
-    }, 10000); // Change image every 10 seconds
+      setTransitioning(true);
+      setTimeout(() => {
+        setCurrentImageIndex(nextImageIndex);
+        setNextImageIndex((nextImageIndex + 1) % backgroundImages.length);
+        setTransitioning(false);
+      }, 2000);
+    }, 8000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [nextImageIndex]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Registration logic would go here
     onNavigate();
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background Image with Gradient Overlay */}
-      <div 
-        className="absolute inset-0 transition-opacity duration-2000 ease-in-out"
-        style={{
-          backgroundImage: `linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.8) 60%, rgba(0,0,0,1) 100%), url(${backgroundImages[currentImageIndex]})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center right',
-          backgroundRepeat: 'no-repeat'
-        }}
-      />
+      {/* Background Images with Transition */}
+      <div className="absolute inset-0">
+        {/* Current Image */}
+        <div 
+          className={`absolute inset-0 transition-opacity duration-2000 ease-in-out ${transitioning ? 'opacity-0' : 'opacity-100'}`}
+          style={{
+            backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.3) 100%), url(${backgroundImages[currentImageIndex]})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            transition: 'opacity 2s ease-in-out',
+          }}
+        />
+        
+        {/* Next Image */}
+        <div 
+          className={`absolute inset-0 transition-opacity duration-2000 ease-in-out ${transitioning ? 'opacity-100' : 'opacity-0'}`}
+          style={{
+            backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.3) 100%), url(${backgroundImages[nextImageIndex]})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            transition: 'opacity 2s ease-in-out',
+          }}
+        />
+      </div>
       
       {/* Content */}
-      <div className="relative z-10 w-full max-w-md mx-4">
-        <div className="bg-gray-900 p-8 rounded-2xl border border-gray-800 shadow-2xl">
+      <div className="relative z-10 w-full max-w-md mx-4 backdrop-blur-sm">
+        <div className="bg-black/70 p-10 rounded-xl border border-gray-800/50 shadow-xl">
           {/* Logo */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">WatchParty</h1>
-            <p className="text-gray-300">Create your account</p>
+          <div className="text-center mb-10">
+            <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">WatchParty</h1>
+            <p className="text-gray-300 text-lg">Join the streaming revolution</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <Label htmlFor="name" className="text-white text-sm font-medium">Full Name</Label>
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-gray-300 text-sm font-medium tracking-wide">FULL NAME</Label>
               <Input
                 id="name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20 placeholder:text-gray-400"
-                placeholder="Enter your full name"
+                className="bg-gray-900/80 border-gray-700/50 text-white h-12 rounded-md focus:border-red-500 focus:ring-red-500/50 placeholder:text-gray-500 transition-all"
+                placeholder="Your full name"
                 required
               />
             </div>
 
-            <div>
-              <Label htmlFor="email" className="text-white text-sm font-medium">Email</Label>
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-gray-300 text-sm font-medium tracking-wide">EMAIL</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20 placeholder:text-gray-400"
-                placeholder="Enter your email"
+                className="bg-gray-900/80 border-gray-700/50 text-white h-12 rounded-md focus:border-red-500 focus:ring-red-500/50 placeholder:text-gray-500 transition-all"
+                placeholder="your@email.com"
                 required
               />
             </div>
 
-            <div>
-              <Label htmlFor="password" className="text-white text-sm font-medium">Password</Label>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-gray-300 text-sm font-medium tracking-wide">PASSWORD</Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20 placeholder:text-gray-400"
-                placeholder="Create a password"
+                className="bg-gray-900/80 border-gray-700/50 text-white h-12 rounded-md focus:border-red-500 focus:ring-red-500/50 placeholder:text-gray-500 transition-all"
+                placeholder="••••••••"
                 required
               />
             </div>
 
-            <div>
-              <Label htmlFor="confirmPassword" className="text-white text-sm font-medium">Confirm Password</Label>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword" className="text-gray-300 text-sm font-medium tracking-wide">CONFIRM PASSWORD</Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white mt-2 h-12 rounded-lg focus:border-red-500 focus:ring-red-500/20 placeholder:text-gray-400"
-                placeholder="Confirm your password"
+                className="bg-gray-900/80 border-gray-700/50 text-white h-12 rounded-md focus:border-red-500 focus:ring-red-500/50 placeholder:text-gray-500 transition-all"
+                placeholder="••••••••"
                 required
               />
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-semibold rounded-lg transition-all duration-200 shadow-lg shadow-red-600/25"
-            >
-              Create Account
-            </Button>
+            <div className="pt-2">
+              <Button 
+                type="submit" 
+                className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-semibold rounded-md transition-all duration-200 shadow-lg shadow-red-600/20 hover:shadow-red-600/30"
+              >
+                Create Account
+              </Button>
+            </div>
           </form>
 
           <div className="mt-8 text-center">
-            <p className="text-gray-300">
+            <p className="text-gray-400">
               Already have an account?{' '}
               <button 
                 onClick={onNavigate}
-                className="text-red-400 hover:text-red-300 font-medium transition-colors"
+                className="text-red-400 hover:text-red-300 font-medium transition-colors underline underline-offset-4"
               >
                 Sign in
               </button>

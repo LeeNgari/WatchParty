@@ -1,4 +1,3 @@
-
 import React from 'react';
 import FeaturedHero from '@/components/FeaturedHero';
 import HorizontalScroll from '@/components/HorizontalScroll';
