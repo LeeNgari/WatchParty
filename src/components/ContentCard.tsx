@@ -13,7 +13,7 @@ interface ContentCardProps {
 const ContentCard: React.FC<ContentCardProps> = ({ content, size = 'medium', onNavigate }) => {
   const handleClick = () => {
     if (onNavigate) {
-      onNavigate('watch', content.id);
+      onNavigate('details', content.id);
     } else {
       // Fallback to opening movie URL or first episode directly
       if (content.type === 'movie' && content.url) {
