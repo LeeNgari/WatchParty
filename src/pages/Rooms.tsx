@@ -1,220 +1,214 @@
 
 import React, { useState } from 'react';
-import { Plus, Users, Video, ArrowRight } from 'lucide-react';
-import { Room } from '@/types/room';
+import { Users, Plus, Play, Clock, Globe, Lock } from 'lucide-react';
+import { ALL_CONTENT } from '@/data/content';
+
+interface Room {
+  id: string;
+  name: string;
+  host: string;
+  currentContent: string;
+  participants: number;
+  maxParticipants: number;
+  isPrivate: boolean;
+  currentTime: string;
+  thumbnail: string;
+}
 
 interface RoomsProps {
   onNavigate?: (section: string, roomId?: string) => void;
 }
 
 const Rooms: React.FC<RoomsProps> = ({ onNavigate }) => {
-  const [rooms, setRooms] = useState<Room[]>([]);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [activeTab, setActiveTab] = useState<'public' | 'private'>('public');
 
-  const handleCreateRoom = () => {
-    setShowCreateModal(true);
-  };
+  // Mock room data
+  const publicRooms: Room[] = [
+    {
+      id: '1',
+      name: 'Movie Night with Friends',
+      host: 'Alice',
+      currentContent: 'The Batman',
+      participants: 4,
+      maxParticipants: 8,
+      isPrivate: false,
+      currentTime: '1:23:45',
+      thumbnail: ALL_CONTENT[0]?.imageUrl || '/placeholder.svg'
+    },
+    {
+      id: '2', 
+      name: 'Horror Marathon',
+      host: 'Bob',
+      currentContent: 'Stranger Things',
+      participants: 6,
+      maxParticipants: 10,
+      isPrivate: false,
+      currentTime: '0:45:12',
+      thumbnail: ALL_CONTENT[1]?.imageUrl || '/placeholder.svg'
+    },
+    {
+      id: '3',
+      name: 'Comedy Central',
+      host: 'Charlie',
+      currentContent: 'The Office',
+      participants: 3,
+      maxParticipants: 6,
+      isPrivate: false,
+      currentTime: '0:12:30',
+      thumbnail: ALL_CONTENT[2]?.imageUrl || '/placeholder.svg'
+    }
+  ];
+
+  const privateRooms: Room[] = [
+    {
+      id: '4',
+      name: 'Family Movie Night',
+      host: 'You',
+      currentContent: 'Dune',
+      participants: 2,
+      maxParticipants: 5,
+      isPrivate: true,
+      currentTime: '2:15:08',
+      thumbnail: ALL_CONTENT[3]?.imageUrl || '/placeholder.svg'
+    }
+  ];
 
   const handleJoinRoom = (roomId: string) => {
-    onNavigate?.('room', roomId);
+    if (onNavigate) {
+      onNavigate('room', roomId);
+    }
   };
 
+  const handleCreateRoom = () => {
+    // Mock room creation - in real app this would open a modal
+    console.log('Creating new room...');
+  };
+
+  const currentRooms = activeTab === 'public' ? publicRooms : privateRooms;
+
   return (
-    <div className="min-h-screen bg-black pt-8">
-      <div className="container mx-auto px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 pt-20 px-6">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-5xl font-light text-white mb-4 tracking-tight">
-            Watch Together
-          </h1>
-          <p className="text-white/60 text-lg font-light max-w-2xl">
-            Create a room and invite friends to watch movies and shows together with screen sharing.
-          </p>
-        </div>
-
-        {/* Create Room Button */}
-        <div className="mb-16">
-          <button
-            onClick={handleCreateRoom}
-            className="group flex items-center gap-4 bg-white text-black px-8 py-6 rounded-2xl font-medium hover:bg-white/90 transition-all duration-300 transform hover:scale-105"
-          >
-            <Plus className="w-6 h-6" />
-            <span className="text-lg">Create New Room</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-
-        {/* Active Rooms */}
-        <div className="space-y-8">
-          <h2 className="text-3xl font-light text-white tracking-tight">
-            Active Rooms
-          </h2>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-white mb-4">Watch Together</h1>
+          <p className="text-gray-300 text-lg mb-8">Join friends and watch movies or TV shows together in real-time</p>
           
-          {rooms.length === 0 ? (
-            <div className="text-center py-16">
-              <Video className="w-16 h-16 text-white/30 mx-auto mb-6" />
-              <h3 className="text-2xl font-light text-white/60 mb-4">
-                No active rooms
-              </h3>
-              <p className="text-white/40 font-light">
-                Create a room to start watching together with friends
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {rooms.map((room) => (
-                <div
-                  key={room.id}
-                  className="group bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 cursor-pointer"
-                  onClick={() => handleJoinRoom(room.id)}
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-medium text-white group-hover:text-white/90">
-                      {room.name}
-                    </h3>
-                    <div className="flex items-center gap-2 text-white/60">
-                      <Users className="w-4 h-4" />
-                      <span className="text-sm">
-                        {room.participants.length}/{room.maxParticipants}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium text-white">
-                        {room.host.name.charAt(0)}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-white/80 text-sm">
-                        Hosted by {room.host.name}
-                      </p>
-                    </div>
-                  </div>
+          {/* Tab Navigation */}
+          <div className="flex gap-4 mb-6">
+            <button
+              onClick={() => setActiveTab('public')}
+              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                activeTab === 'public'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              <Globe className="w-5 h-5 inline mr-2" />
+              Public Rooms
+            </button>
+            <button
+              onClick={() => setActiveTab('private')}
+              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                activeTab === 'private'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              <Lock className="w-5 h-5 inline mr-2" />
+              My Rooms
+            </button>
+            <button
+              onClick={handleCreateRoom}
+              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-all duration-200 ml-auto"
+            >
+              <Plus className="w-5 h-5 inline mr-2" />
+              Create Room
+            </button>
+          </div>
+        </div>
 
-                  <button className="w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-medium transition-all duration-300 border border-white/20">
-                    Join Room
+        {/* Rooms Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {currentRooms.map(room => (
+            <div key={room.id} className="bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-800/70 transition-all duration-200 border border-gray-700/50">
+              {/* Thumbnail */}
+              <div className="relative h-48">
+                <img 
+                  src={room.thumbnail} 
+                  alt={room.currentContent}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/placeholder.svg';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                
+                {/* Play overlay */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200 bg-black/40">
+                  <button 
+                    onClick={() => handleJoinRoom(room.id)}
+                    className="w-16 h-16 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200"
+                  >
+                    <Play className="w-8 h-8 text-white fill-current ml-1" />
                   </button>
                 </div>
-              ))}
+
+                {/* Room status */}
+                <div className="absolute top-4 right-4">
+                  <div className="flex items-center gap-2 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
+                    <Users className="w-4 h-4 text-white" />
+                    <span className="text-white text-sm">{room.participants}/{room.maxParticipants}</span>
+                  </div>
+                </div>
+
+                {/* Current time */}
+                <div className="absolute bottom-4 left-4">
+                  <div className="flex items-center gap-2 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
+                    <Clock className="w-4 h-4 text-white" />
+                    <span className="text-white text-sm">{room.currentTime}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Room info */}
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-white mb-2">{room.name}</h3>
+                <p className="text-gray-300 mb-2">Currently watching: {room.currentContent}</p>
+                <p className="text-gray-400 text-sm mb-4">Hosted by {room.host}</p>
+                
+                <button 
+                  onClick={() => handleJoinRoom(room.id)}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Join Room
+                </button>
+              </div>
             </div>
-          )}
+          ))}
         </div>
-      </div>
 
-      {/* Create Room Modal */}
-      {showCreateModal && (
-        <CreateRoomModal
-          onClose={() => setShowCreateModal(false)}
-          onCreateRoom={(room) => {
-            setRooms([...rooms, room]);
-            setShowCreateModal(false);
-            handleJoinRoom(room.id);
-          }}
-        />
-      )}
-    </div>
-  );
-};
-
-interface CreateRoomModalProps {
-  onClose: () => void;
-  onCreateRoom: (room: Room) => void;
-}
-
-const CreateRoomModal: React.FC<CreateRoomModalProps> = ({ onClose, onCreateRoom }) => {
-  const [roomName, setRoomName] = useState('');
-  const [maxParticipants, setMaxParticipants] = useState(8);
-  const [hostName, setHostName] = useState('');
-
-  const handleCreate = () => {
-    if (!roomName.trim() || !hostName.trim()) return;
-
-    const newRoom: Room = {
-      id: Math.random().toString(36).substr(2, 9),
-      name: roomName,
-      host: {
-        id: 'host-' + Math.random().toString(36).substr(2, 9),
-        name: hostName,
-        isHost: true,
-        isScreenSharing: false,
-      },
-      participants: [],
-      isActive: true,
-      createdAt: new Date(),
-      maxParticipants,
-    };
-
-    onCreateRoom(newRoom);
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full border border-white/20">
-        <h2 className="text-3xl font-light text-white mb-8 tracking-tight">
-          Create Room
-        </h2>
-
-        <div className="space-y-6">
-          <div>
-            <label className="block text-white/80 text-sm font-light mb-3">
-              Room Name
-            </label>
-            <input
-              type="text"
-              value={roomName}
-              onChange={(e) => setRoomName(e.target.value)}
-              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-white/40 transition-colors"
-              placeholder="Enter room name"
-            />
-          </div>
-
-          <div>
-            <label className="block text-white/80 text-sm font-light mb-3">
-              Your Name
-            </label>
-            <input
-              type="text"
-              value={hostName}
-              onChange={(e) => setHostName(e.target.value)}
-              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-white/40 transition-colors"
-              placeholder="Enter your name"
-            />
-          </div>
-
-          <div>
-            <label className="block text-white/80 text-sm font-light mb-3">
-              Max Participants
-            </label>
-            <select
-              value={maxParticipants}
-              onChange={(e) => setMaxParticipants(Number(e.target.value))}
-              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-colors"
+        {/* Empty state */}
+        {currentRooms.length === 0 && (
+          <div className="text-center py-12">
+            <Users className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">
+              No {activeTab} rooms found
+            </h3>
+            <p className="text-gray-500 mb-6">
+              {activeTab === 'public' 
+                ? 'Be the first to create a public room!' 
+                : 'Create your first private room to get started.'}
+            </p>
+            <button 
+              onClick={handleCreateRoom}
+              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200"
             >
-              <option value={4} className="bg-gray-900">4 people</option>
-              <option value={8} className="bg-gray-900">8 people</option>
-              <option value={12} className="bg-gray-900">12 people</option>
-              <option value={16} className="bg-gray-900">16 people</option>
-            </select>
+              Create Room
+            </button>
           </div>
-        </div>
-
-        <div className="flex gap-4 mt-8">
-          <button
-            onClick={onClose}
-            className="flex-1 bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-medium transition-all duration-300 border border-white/20"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleCreate}
-            disabled={!roomName.trim() || !hostName.trim()}
-            className="flex-1 bg-white text-black py-3 rounded-xl font-medium hover:bg-white/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Create Room
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

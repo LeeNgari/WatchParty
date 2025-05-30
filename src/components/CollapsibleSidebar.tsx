@@ -37,8 +37,8 @@ const CollapsibleSidebar: React.FC<CollapsibleSidebarProps> = ({
       {/* Sidebar - Always visible, either collapsed or expanded */}
       <div 
         className={`
-          fixed top-0 left-0 h-full bg-gray-950 z-50 transition-all duration-300 ease-out
-          ${isOpen ? 'w-64' : 'w-16'}
+          fixed top-0 left-0 h-full bg-slate-900 z-50 transition-all duration-300 ease-out
+          ${isOpen ? 'w-64 mr-4' : 'w-16 mr-2'}
         `}
         onMouseEnter={() => !isOpen && onToggle()}
         onMouseLeave={() => isOpen && onToggle()}
