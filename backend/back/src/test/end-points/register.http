@@ -1,0 +1,39 @@
+POST http://localhost:8081/api/auth/profile/logout
+Content-Type: application/json
+Accept: application/json
+
+{
+  "profileId": 1,
+  "username": "lgngari"
+}
+
+###
+
+Content-Type: application/json
+Accept: application/json
+
+{
+  "profileId": 1,
+  "username": "lgngari"
+}
+
+###
+POST http://localhost:8081/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+ "username":"lgngari",
+ "password":"house@123"
+}
+
+###
+POST http://localhost:8081/api/auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+    "username":"lgngari",
+    "password":"house@123"
+}
+###

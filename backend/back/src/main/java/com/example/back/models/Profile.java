@@ -1,10 +1,17 @@
 package com.example.back.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
-
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.List;
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "user") // Prevent recursive toString
+@EqualsAndHashCode(exclude = "user")
 @Table(name = "profiles")
 public class Profile {
     @Id
@@ -15,6 +22,7 @@ public class Profile {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     private boolean isActive = false;

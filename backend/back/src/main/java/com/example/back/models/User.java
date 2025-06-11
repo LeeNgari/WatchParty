@@ -1,12 +1,19 @@
 package com.example.back.models;
 
+import com.example.back.models.Profile;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
-import java.util.HashSet;
-import java.util.Set;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "profiles") // Prevent recursive toString
+@EqualsAndHashCode(exclude = "profiles")
 @Table(name = "users")
 public class User {
     @Id
@@ -18,6 +25,7 @@ public class User {
 
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Profile> profiles = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Profile> profiles;
 }

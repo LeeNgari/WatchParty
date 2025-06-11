@@ -1,9 +1,9 @@
-package com.example.back.dto;
+package com.example.back.dto.auth;
 
 import lombok.Data;
 
 @Data
-public class ProfileLogoutRequest {
+public class ProfileLoginRequest {
     private Long profileId;
     private String username;
     // getters and setters

@@ -22,19 +22,30 @@ public class JwtAuthFilter extends OncePerRequestFilter { // Remove 'abstract'
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        String path = request.getServletPath();
+        System.out.println("JWT Filter intercepted: " + path); // DEBUGGING
+
+        // Let auth requests pass through WITHOUT applying auth logic
+        if (path.startsWith("/api/auth")) {
+            System.out.println("Skipping JWT validation for: " + path);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateToken(jwt)) {
                 String username = jwtUtils.getUserNameFromToken(jwt);
-                Long profileId = jwtUtils.getProfileIdFromToken(jwt);
+                Long profileId = jwtUtils.getProfileIdFromToken(jwt); // If you're using this
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        username, null, null);
+                        username, null, null
+                );
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            logger.error("Cannot set user authentication: {}", e);
+            logger.error("JWT Auth error", e);
         }
 
         filterChain.doFilter(request, response);
